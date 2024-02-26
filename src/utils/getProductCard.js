@@ -1,14 +1,13 @@
 const getProductCards = (products) => {
     let html = '';
-    console.log(products)
     products.map(product => {  
         html += `
-        <div class="product-card">
-            <img src="${product.image}" alt="${product.name}">
-            <h2>${product.name}</h2>
-            <p>${product.description}</p>
-            <p>${product.price}€</p>
-            <a href="/products/${product._id}">Ver detalle</a>
+        <div class="productCard">
+            <img class="productImg" src="${product.image}" alt="${product.name}">
+            <h2 class="productTitle">${product.name}</h2>
+            <p class="productText">${product.description}</p>
+            <p class="productPrice productText">${product.price}€</p>
+            <a class="productLink" href="/products/${product._id}">Ver detalle</a>
         </div>
         `;
     })
