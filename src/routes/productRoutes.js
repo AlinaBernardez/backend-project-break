@@ -2,6 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const { showProducts, showProductById, showNewProduct, createProduct, showEditProduct, updateProduct, showProductsAdmin, deleteProduct } = require('../controllers/productController');
 const productRoutes = express.Router();
+const { verifyToken } = require('../middleware/authMiddleware');
 
 //Multer config for image upload
 let storage = multer.diskStorage({
@@ -12,19 +13,19 @@ let storage = multer.diskStorage({
         cb(null, file.fieldname + '-' + Date.now())
     }
 });
-let upload = multer({ storage: storage });
+let upload = multer({ storage: storage }).single('image');
 
-//Rutas usuario
+//User routes
 productRoutes.get('/products', showProducts);
 
 productRoutes.get('/product/:productId', showProductById);
 
-//Rutas administrador
-productRoutes.get('/dashboard', showProductsAdmin);
+//Admin routes
+productRoutes.get('/dashboard', verifyToken, showProductsAdmin);
 
 productRoutes.get('/dashboard/new', showNewProduct);
 
-productRoutes.post('/dashboard', upload.single('image'), createProduct);
+productRoutes.post('/dashboard', upload, createProduct);
 
 productRoutes.get('/dashboard/:productId');
 
