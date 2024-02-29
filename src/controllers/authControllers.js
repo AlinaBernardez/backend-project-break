@@ -65,6 +65,7 @@ const logout = (req, res) => {
     });
 };
 
+
 module.exports = {
     registerForm,
     register,

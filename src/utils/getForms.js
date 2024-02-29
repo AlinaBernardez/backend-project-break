@@ -42,19 +42,24 @@ const getAuthForm = (type) => {
     }
 };
 
-const getProductForm = (type, id) => {
+const getProductForm = (type, id, product) => {
     let form = `
-    <form class='productForm' ${type == 'new' ? action='/dashboard' : action=`/dashboard/${id}`} method='post'>
-        <h2 class='formTitle'>Create new product</h2>
+    ${type == 'new' ? 
+    `<form class='productForm' action='/dashboard' method='post'>` :
+    `<form class='productForm' action='/dashboard/${id}' method='post'>` 
+    }
+    ${type == 'new' ? 
+    `<h2 class='formTitle'>Create new product</h2>` :
+    `<h2 class='formTitle'>Edit product</h2>` 
+    }
         <div class='inputBox'>
             <label for='name'>Name:</label>
-            <input type='text' id='name' name='name' required />
+            <input type='text' id='name' name='name' ${product && `value=${product.name}`} required />
         </div>
         <div class='inputBox'>
             <label for='description'>Description:</label>
-            <input type='text' id='description' name='description' required />
+            <input type='text' id='description' name='description' ${product && `value=${product.description}`} required />
         </div>
-
         <div class='smallInput'>
             <div class='inputBox'>
                 <label for='category'>Category:</label>
@@ -77,7 +82,7 @@ const getProductForm = (type, id) => {
             </div>
             <div class='inputBox'>
                 <label for='price'>Price:</label>
-                <input type='text' id='price' name='price' required />
+                <input type='text' id='price' name='price' ${product && `value=${product.price}`} required />
             </div>
         </div> 
         ${type == 'new' ? 
@@ -92,12 +97,13 @@ const getProductForm = (type, id) => {
 const getImageForm = (id) => {
     const form = `
     <form class='productForm' action=/dashboard/${id}/newImage enctype="multipart/form-data" method='post'>
+    <h2 class='formTitle'>Add image</h2>
         <div class='inputBox'>
             <label for='image'>Image:</label>
             <input type="file" id='image' name='image'/>
         </div>
         <button class='formButton' type='submit'>ADD IMAGE</button>
-        </form>
+    </form>
     `
     return form
 }

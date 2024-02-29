@@ -8,9 +8,11 @@ const getProductCardsAdmin = (products) => {
             <h2 class="productTitle">${product.name}</h2>
             <p class="productText">${product.description}</p>
             <p class="productPrice productText">${product.price}€</p>
-            <a class="productLink" href="/dashboard/${product._id}">Ver detalle</a>
-            <a class="productLink" href="/dashboard/${product._id}/edit">Editar</a>
-            <a class="productLink" href="/dashboard/${product._id}/delete">Eliminar</a>
+            <div class='btnCard'>
+                <a class="productLink" href="/dashboard/${product._id}">Ver detalle</a>
+                <a class="productLink" href="/dashboard/${product._id}/edit">Editar</a>
+                <a class="productLink" href="/dashboard/${product._id}/delete">Eliminar</a>
+            </div>
         </div>
         `;
     })
