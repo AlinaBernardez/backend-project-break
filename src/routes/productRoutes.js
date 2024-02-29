@@ -1,19 +1,8 @@
 const express = require('express');
-const multer = require('multer');
-const { showProducts, showProductById, showNewProduct, createProduct, showEditProduct, updateProduct, showProductsAdmin, deleteProduct } = require('../controllers/productController');
+const { showProducts, showProductById, showNewProduct, createProduct, showEditProduct, updateProduct, showProductsAdmin, deleteProduct, showNewImage, uploadImage } = require('../controllers/productController');
 const productRoutes = express.Router();
 const { verifyToken } = require('../middleware/authMiddleware');
-
-//Multer config for image upload
-let storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, './uploads')
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.fieldname + '-' + Date.now())
-    }
-});
-let upload = multer({ storage: storage }).single('image');
+const upload = require('../config/multer');
 
 //User routes
 productRoutes.get('/products', showProducts);
@@ -25,7 +14,11 @@ productRoutes.get('/dashboard', verifyToken, showProductsAdmin);
 
 productRoutes.get('/dashboard/new', showNewProduct);
 
-productRoutes.post('/dashboard', upload, createProduct);
+productRoutes.get('/dashboard/:productId/addImage', showNewImage);
+
+productRoutes.post('/dashboard', createProduct);
+
+productRoutes.post('/dashboard/:productId/newImage', upload, uploadImage);
 
 productRoutes.get('/dashboard/:productId');
 

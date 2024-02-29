@@ -5,7 +5,7 @@ const getProductCards = require('../utils/getProductCard')
 const getProductCardsAdmin = require('../utils/getProductCardsAdmin')
 const baseHtml = require('../utils/baseHtml');
 const { getNavBar, getNavBarAdmin } = require('../utils/getNavBar');
-const { getProductForm } = require('../utils/getForms');
+const { getProductForm, getImageForm } = require('../utils/getForms');
 
 const showProducts = async(req, res) => {
     try {
@@ -46,27 +46,41 @@ const showProductById = async(req, res) => {
 
 const showNewProduct = (req, res) => {
     const newProductForm = baseHtml + getNavBarAdmin() + getProductForm('new')
-    res.send(newProductForm)
+    return res.send(newProductForm)
+};
+
+const showNewImage = (req, res) => {
+    const addImageForm = baseHtml + getNavBarAdmin() + getImageForm(req.params)
+    return res.send(addImageForm)
 };
 
 const createProduct = async(req, res) => {
-    console.log(req.file)
-    const imgPath = path.join(__dirname + '/uploads' + req.file.filename)
-    console.log(imgPath)
-    const prodImage = {
-        data: fs.readFileSync(imgPath),
-        contentType: 'image/png'
-    }
-    console.log(prodImage)
-    const { name, description, category, size } = req.body
     console.log(req.body)
-
     try {
-        await Product.create(req.body, prodImage)
-        res.redirect('/dashboard')
+        const newProduct = await Product.create(req.body)
+        const newId = newProduct._id
+        console.log('Product created', newId)
+        return res.send({redirect: `/dashboard/${newId}/addImage`})
     }
     catch(error) {
         res.status(500).send({message: 'Something went wrong!', error})
+    }
+};
+
+const uploadImage = async(req, res) => {
+    console.log('uploading')
+    try {
+        const imgPath = path.join(__dirname + '..' + '/uploads' + req.file.filename)
+        const prodImage = {
+            data: fs.readFileSync(imgPath),
+            contentType: 'image/png'
+        }
+        console.log(prodImage)
+        let updated = await Product.findByIdAndUpdate(req.params, prodImage)
+        console.log(updated)
+        res.redirect('/dashboard')
+    } catch(error) {
+        res.status(500).send({message: error})
     }
 };
 
@@ -104,6 +118,8 @@ module.exports = {
     showProductsAdmin,
     showProductById,
     showNewProduct,
+    showNewImage,
+    uploadImage,
     createProduct, 
     showEditProduct,
     updateProduct,

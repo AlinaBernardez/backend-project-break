@@ -44,7 +44,7 @@ const getAuthForm = (type) => {
 
 const getProductForm = (type, id) => {
     let form = `
-    <form class='productForm' ${type == 'new' ? action='/dashboard' : action=`/dashboard/${id}`} enctype="multipart/form-data" method='post'>
+    <form class='productForm' ${type == 'new' ? action='/dashboard' : action=`/dashboard/${id}`} method='post'>
         <h2 class='formTitle'>Create new product</h2>
         <div class='inputBox'>
             <label for='name'>Name:</label>
@@ -54,10 +54,7 @@ const getProductForm = (type, id) => {
             <label for='description'>Description:</label>
             <input type='text' id='description' name='description' required />
         </div>
-        <div class='inputBox'>
-            <label for='image'>Image:</label>
-            <input type="file" id='image' name='image'/>
-        </div>
+
         <div class='smallInput'>
             <div class='inputBox'>
                 <label for='category'>Category:</label>
@@ -90,9 +87,23 @@ const getProductForm = (type, id) => {
     </form>
     `
     return form
+};
+
+const getImageForm = (id) => {
+    const form = `
+    <form class='productForm' action=/dashboard/${id}/newImage enctype="multipart/form-data" method='post'>
+        <div class='inputBox'>
+            <label for='image'>Image:</label>
+            <input type="file" id='image' name='image'/>
+        </div>
+        <button class='formButton' type='submit'>ADD IMAGE</button>
+        </form>
+    `
+    return form
 }
 
 module.exports = {
     getAuthForm,
-    getProductForm
+    getProductForm,
+    getImageForm
 };
