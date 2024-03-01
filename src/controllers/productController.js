@@ -1,9 +1,9 @@
 const Product = require('../models/Product');
 const fs = require('node:fs');
 const path = require('path');
-const getProductCards = require('../utils/getProductCard')
-const getProductCardsAdmin = require('../utils/getProductCardsAdmin')
-const baseHtml = require('../utils/baseHtml');
+const getProductCards = require('../utils/getProductCard');
+const getProductCardsAdmin = require('../utils/getProductCardsAdmin');
+const getBaseHtml = require('../utils/getBaseHtml');
 const { getNavBar, getNavBarAdmin } = require('../utils/getNavBar');
 const { getProductForm, getImageForm } = require('../utils/getForms');
 const getProductDetail = require('../utils/getProductDetail');
@@ -16,11 +16,11 @@ const showProducts = async(req, res) => {
         if(!allProducts) res.status(400).send({message: 'Could not find products'})
         if(!req.session.token) {
             const response = getProductCards(allProducts)
-            html = baseHtml + getNavBar() + `<div class='cardContainer'>${response}</div>`
+            html = getBaseHtml() + getNavBar() + `<div class='cardContainer'>${response}</div>`
         }
         else {
             const response = getProductCardsAdmin(allProducts)
-            html = baseHtml + getNavBarAdmin() + `<div class='cardContainer'>${response}</div>`
+            html = getBaseHtml() + getNavBarAdmin() + `<div class='cardContainer'>${response}</div>`
         }
         res.send(html)
     }
@@ -34,12 +34,13 @@ const showFilteredProducts = async(req, res) => {
     try {
         const filter = req.params.category
         const filteredProducts = await Product.find({category: filter})
-        const response = getProductCards(filteredProducts)
         if(!req.session.token) {
-            html = baseHtml + getNavBar() + `<div class='cardContainer'>${response}</div>`
+            const response = getProductCards(filteredProducts)
+            html = getBaseHtml() + getNavBar() + `<div class='cardContainer'>${response}</div>`
         } 
         else {
-            html = baseHtml + getNavBarAdmin() + `<div class='cardContainer'>${response}</div>`
+            const response = getProductCardsAdmin(filteredProducts)
+            html = getBaseHtml() + getNavBarAdmin() + `<div class='cardContainer'>${response}</div>`
         }
         res.send(html)
     }
@@ -49,38 +50,31 @@ const showFilteredProducts = async(req, res) => {
 };
 
 const showProductById = async(req, res) => {
-    if(!req.session.token) {
-        try {
-            const thisProduct = await Product.findById(req.params.productId)
-            if(!thisProduct) res.status(400).send({message: 'Could not find this product'})
-            const html = baseHtml + getNavBar() + `<div class='detailContainer'>${getProductDetail(thisProduct, false)}</div>`
-            res.send(html)
+    let html
+    try {
+        const thisProduct = await Product.findById(req.params.productId)
+        if(!thisProduct) res.status(400).send({message: 'Could not find this product'})
+        if(!req.session.token) {
+            html = getBaseHtml() + getNavBar() + `<div class='detailContainer'>${getProductDetail(thisProduct, false)}</div>`
         }
-        catch(error) {
-            res.status(500).send({message: 'Something went wrong!', error})
+        else {
+            html = getBaseHtml() + getNavBarAdmin() + `<div class='detailContainer'>${getProductDetail(thisProduct, true)}</div>`
         }
+        res.send(html)
     }
-    else {
-        try {
-            const thisProduct = await Product.findById(req.params.productId)
-            if(!thisProduct) res.status(400).send({message: 'Could not find this product'})
-            const html = baseHtml + getNavBarAdmin() + `<div class='detailContainer'>${getProductDetail(thisProduct, true)}</div>`
-            res.send(html)
-        }
-        catch(error) {
-            res.status(500).send({message: 'Something went wrong!', error})
-        }
+    catch(error) {
+        res.status(500).send({message: 'Something went wrong!', error})
     }
-    
 };
 
-const showNewProduct = (req, res) => {
-    const newProductForm = baseHtml + getNavBarAdmin() + getProductForm('new', null)
+const showNewProduct = async(req, res) => {
+    const form = getProductForm('new')
+    const newProductForm = getBaseHtml() + getNavBarAdmin() + form
     res.send(newProductForm)
 };
 
 const showNewImage = (req, res) => {
-    const addImageForm = baseHtml + getNavBarAdmin() + getImageForm(req.params.productId)
+    const addImageForm = getBaseHtml() + getNavBarAdmin() + getImageForm(req.params.productId)
     return res.send(addImageForm)
 };
 
@@ -114,19 +108,17 @@ const uploadImage = async(req, res) => {
 const showEditProduct = async(req, res) => {
     let editId = req.params.productId
     const toEdit = await Product.findById(editId)
-    const editProductForm = baseHtml + getNavBarAdmin() + getProductForm('edit', toEdit)
-    res.send(editProductForm)
+    const editProductForm = getBaseHtml() + getNavBarAdmin() + getProductForm('edit', toEdit)
+    return res.send(editProductForm)
 };
 
 const updateProduct = async(req, res) => {
-    console.log(req.body)
     const { name, description, category, size, price } = req.body
     if(!name || !description || !category || !size || !price) {
         res.status(400).send({message: 'All fields are required!'})
     }
     try {
         const updatedProduct = await Product.findByIdAndUpdate(req.params.productId, req.body)
-        console.log(updatedProduct)
         res.redirect('/dashboard')
     }
     catch(error) {

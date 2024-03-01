@@ -1,13 +1,13 @@
 const session = require('express-session')
 const { generateToken } = require('../middleware/authMiddleware');
 const { getAuthForm } = require('../utils/getForms');
-const baseHtml = require('../utils/baseHtml');
+const baseHtml = require('../utils/getBaseHtml');
 const firebase = require('firebase/compat/app');
 const { getNavBar } = require('../utils/getNavBar');
 require('firebase/compat/auth');
 
 const registerForm = (req, res) => {
-    const html = baseHtml + getNavBar() + getAuthForm('register')
+    const html = baseHtml() + getNavBar() + getAuthForm('register')
     res.send(html)
 };
 
@@ -33,7 +33,7 @@ const register = async(req, res) => {
 };
 
 const loginForm = (req, res) => {
-    const html = baseHtml + getNavBar() + getAuthForm('login')
+    const html = baseHtml() + getNavBar() + getAuthForm('login')
     res.send(html)
 };
 

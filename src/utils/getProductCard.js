@@ -7,7 +7,7 @@ const getProductCards = (products) => {
             <h2 class="productTitle">${product.name}</h2>
             <p class="productText">${product.description}</p>
             <p class="productPrice productText">${product.price}€</p>
-            <a class="productLink" href="/products/${product._id}">Ver producto</a>
+            <a class="productLink" href="/products/${product._id}/detail">Ver producto</a>
         </div>
         `;
     })

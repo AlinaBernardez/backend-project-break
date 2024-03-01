@@ -23,7 +23,7 @@ const getNavBarAdmin = () => {
             <a href='/dashboard/trousers'><p class='navText'>Trousers</p></a>
             <a href='/dashboard/shoes'><p class='navText'>Shoes</p></a>
             <a href='/dashboard/skirts'><p class='navText'>Skirts</p></a>
-            <a href='/dashboard/new'><p class='navText'>Add product</p></a>
+            <a href='/addProduct'><p class='navText'>Add product</p></a>
             <form action='/logout' method='POST'>
                 <button class="navText logoutBtn" type='submit'>Logout</button>
             </form>

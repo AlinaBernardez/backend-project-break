@@ -1,4 +1,5 @@
-const baseHtml = `
+const getBaseHtml = () => {
+    const baseHtml = `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,5 +13,7 @@ const baseHtml = `
 </body>
 </html>
 `
+return baseHtml
+}
 
-module.exports = baseHtml
+module.exports = getBaseHtml

@@ -8,7 +8,7 @@ const getProductCardsAdmin = (products) => {
             <p class="productText">${product.description}</p>
             <p class="productPrice productText">${product.price}€</p>
             <div class='btnCard'>
-                <a class="productLink" href="/dashboard/${product._id}">Detalle</a>
+                <a class="productLink" href="/dashboard/${product._id}/detail">Detalle</a>
                 <a class="productLink" href="/dashboard/${product._id}/edit">Editar</a>
                 <form action='/dashboard/${product._id}/delete' method='POST'>
                     <button class="productLink deleteBtn" type='submit'>Eliminar</button>
