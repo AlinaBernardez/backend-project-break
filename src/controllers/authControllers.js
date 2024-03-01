@@ -3,10 +3,11 @@ const { generateToken } = require('../middleware/authMiddleware');
 const { getAuthForm } = require('../utils/getForms');
 const baseHtml = require('../utils/baseHtml');
 const firebase = require('firebase/compat/app');
+const { getNavBar } = require('../utils/getNavBar');
 require('firebase/compat/auth');
 
 const registerForm = (req, res) => {
-    const html = baseHtml + getAuthForm('register')
+    const html = baseHtml + getNavBar() + getAuthForm('register')
     res.send(html)
 };
 
@@ -32,7 +33,7 @@ const register = async(req, res) => {
 };
 
 const loginForm = (req, res) => {
-    const html = baseHtml + getAuthForm('login')
+    const html = baseHtml + getNavBar() + getAuthForm('login')
     res.send(html)
 };
 
@@ -59,7 +60,7 @@ const logout = (req, res) => {
     firebase.auth().signOut()
     .then(() => {
         req.session.destroy();
-        res.redirect('/login');
+        res.redirect('/products');
     }).catch((error) => {
         res.send(error.message)
     });

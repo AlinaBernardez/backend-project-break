@@ -19,12 +19,13 @@ body {
     margin: 0;
     padding: 0;
     background-color: var(--ligth);
-    transition: all 0.3s;
+    transition: all 0.4s ease;
 }
 
 a {
     text-decoration: none;
     color: white;
+    transition: all 0.5s ease;
 }
 
 
@@ -45,12 +46,30 @@ a {
     width: 80%;
 }
 
+.navText {
+    transition: all 0.5s ease;
+}
+
+.navText:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.logoutBtn {
+    box-sizing: border-box;
+    border: none;
+    color: var(--orange);
+    font-size: 16px;
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+}
 
 .cardContainer {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    justify-content: center;
+    justify-content: flex-start;
     flex-wrap: wrap;
     width: 75%;
     gap: 2rem;
@@ -62,7 +81,7 @@ a {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 15%;
+    width: 20%;
     border: solid 2px var(--orange);
     border-radius: 10px;
     box-sizing: border-box;
@@ -71,18 +90,54 @@ a {
 
 .productTitle {
     color: var(--dark);
+    font-size: 1.2rem;
 }
 
 .productText {
-    font-size: 16px;
-    margin: 0;
+    font-size: 14px;
+    margin-bottom: 0.3rem;
+    margin-top: 0;
+    text-align: center;
+}
+
+.productPrice {
+    color: var(--dark);
+    font-size: 1.2rem;
 }
 
 .btnCard {
     display: flex;
     flex-direction: row;
-    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 1.2rem;
     margin-top: 1rem;
+}
+
+.productLink {
+    font-size: 14px;
+    color: var(--orange);
+    margin-top: 1rem;
+    transition: all 0.2s ease;
+}
+
+.deleteBtn {
+    box-sizing: border-box;
+    border: none;
+    color: var(--orange);
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+}
+
+.productLink:hover, .deleteBtn:hover {
+    cursor: pointer;
+    transform: scale(1.2);
+    color: var(--dark);
 }
 
 .detailContainer {
@@ -98,11 +153,18 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 3rem;
+    gap: 5rem;
     border: solid 3px var(--dark);
     border-radius: 10px;
-    width: 50%;
+    width: 45%;
     height: 50%;
+}
+
+.detailContent {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
 }
 
 .form {

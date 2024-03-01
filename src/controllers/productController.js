@@ -7,13 +7,21 @@ const baseHtml = require('../utils/baseHtml');
 const { getNavBar, getNavBarAdmin } = require('../utils/getNavBar');
 const { getProductForm, getImageForm } = require('../utils/getForms');
 const getProductDetail = require('../utils/getProductDetail');
+const { deleteUploaded } = require('../config/multer');
 
 const showProducts = async(req, res) => {
+    let html
     try {
         const allProducts = await Product.find({})
         if(!allProducts) res.status(400).send({message: 'Could not find products'})
-        const response = getProductCards(allProducts)
-        const html = baseHtml + getNavBar() + `<div class='cardContainer'>${response}</div>`
+        if(!req.session.token) {
+            const response = getProductCards(allProducts)
+            html = baseHtml + getNavBar() + `<div class='cardContainer'>${response}</div>`
+        }
+        else {
+            const response = getProductCardsAdmin(allProducts)
+            html = baseHtml + getNavBarAdmin() + `<div class='cardContainer'>${response}</div>`
+        }
         res.send(html)
     }
     catch(error) {
@@ -21,12 +29,18 @@ const showProducts = async(req, res) => {
     }
 };
 
-const showProductsAdmin = async(req, res) => {
+const showFilteredProducts = async(req, res) => {
+    let html
     try {
-        const allProducts = await Product.find({})
-        if(!allProducts) res.status(400).send({message: 'Could not find products'})
-        const response = getProductCardsAdmin(allProducts)
-        const html = baseHtml + getNavBarAdmin() + `<div class='cardContainer'>${response}</div>`
+        const filter = req.params.category
+        const filteredProducts = await Product.find({category: filter})
+        const response = getProductCards(filteredProducts)
+        if(!req.session.token) {
+            html = baseHtml + getNavBar() + `<div class='cardContainer'>${response}</div>`
+        } 
+        else {
+            html = baseHtml + getNavBarAdmin() + `<div class='cardContainer'>${response}</div>`
+        }
         res.send(html)
     }
     catch(error) {
@@ -61,6 +75,7 @@ const showProductById = async(req, res) => {
 };
 
 const showNewProduct = (req, res) => {
+    console.log('Hola')
     const newProductForm = baseHtml + getNavBarAdmin() + getProductForm('new')
     return res.send(newProductForm)
 };
@@ -71,7 +86,6 @@ const showNewImage = (req, res) => {
 };
 
 const createProduct = async(req, res) => {
-    console.log(req.body)
     try {
         const newProduct = await Product.create(req.body)
         const newId = newProduct._id
@@ -82,23 +96,19 @@ const createProduct = async(req, res) => {
     }
 };
 
-//C:\Users\MSI\Desktop\TheBridge\Ejercicios\BackEnd\backend-project-break\uploads
-
 const uploadImage = async(req, res) => {
     const id = req.params.productId
-    console.log(id)
     const imgPath = path.join(__dirname, '/../../uploads', req.file.filename)
     try {
-        console.log('thisPath:', imgPath)
         const prodImage = {
             data: fs.readFileSync(imgPath),
             contentType: 'image/png'
         }
-        let updated = await Product.findByIdAndUpdate(id, {image: prodImage}, {new: true})
-        console.log(updated)
-        return res.redirect(`/dashboard/${id}`)
+        // const updatedProduct = await Product.updateOne({_id: id}, {image: prodImage})
+        // console.log(updatedProduct)
+        res.redirect(`/dashboard`)
     } catch(error) {
-        res.status(500).send({message: error})
+        res.status(500).send(error.message)
     }
 };
 
@@ -126,9 +136,12 @@ const updateProduct = async(req, res) => {
 };
 
 const deleteProduct = async(req, res) => {
+    let id = req.params.productId
+    let imgPath = path.join(__dirname, '/../../uploads', `image-${id}`)
     try {
-        await Product.findByIdAndDelete(req.params.productId)
-        res.status(200).send({message: 'Product deleted'})
+        await Product.findByIdAndDelete(id)
+        deleteUploaded(imgPath)
+        return res.redirect('/dashboard')
     }
     catch(error) {
         res.status(500).send({message: 'Something went wrong!', error})
@@ -137,7 +150,7 @@ const deleteProduct = async(req, res) => {
 
 module.exports = {
     showProducts,
-    showProductsAdmin,
+    showFilteredProducts,
     showProductById,
     showNewProduct,
     showNewImage,

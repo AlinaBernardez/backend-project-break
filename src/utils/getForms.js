@@ -64,10 +64,10 @@ const getProductForm = (type, id, product) => {
             <div class='inputBox'>
                 <label for='category'>Category:</label>
                 <select id='category' name='category' required >
-                    <option value='vestidos'>Dresses</option>
-                    <option value='pantalones'>Trousers</option>
-                    <option value='zapatos'>Shoes</option>
-                    <option value='faldas'>Skirts</option>
+                    <option value='dresses'>Dresses</option>
+                    <option value='trousers'>Trousers</option>
+                    <option value='shoes'>Shoes</option>
+                    <option value='skirts'>Skirts</option>
                 </select>
             </div>
             <div class='inputBox'>
