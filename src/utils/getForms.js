@@ -42,11 +42,11 @@ const getAuthForm = (type) => {
     }
 };
 
-const getProductForm = (type, id, product) => {
+const getProductForm = (type, product) => {
     let form = `
     ${type == 'new' ? 
     `<form class='productForm' action='/dashboard' method='post'>` :
-    `<form class='productForm' action='/dashboard/${id}' method='post'>` 
+    `<form class='productForm' action='/dashboard/${product._id}' method='post'>` 
     }
     ${type == 'new' ? 
     `<h2 class='formTitle'>Create new product</h2>` :

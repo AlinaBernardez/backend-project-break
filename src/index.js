@@ -6,6 +6,7 @@ const path = require('path');
 const dbConnect = require('./config/db');
 const productRoutes = require('./routes/productRoutes');
 const authRoutes = require('./routes/authRoutes');
+const errRoutes = require('./routes/errorRoutes');
 const hashedSecret = require('./encrypt/hash');
 require('./config/firebase')
 
@@ -21,7 +22,7 @@ app.use(cors());
 
 app.use(
     session({
-        secret: hashedSecret,
+        secret: process.env.MY_SECRET,
         resave: false,
         saveUninitialized: true,
         cookie: { secure: false }
@@ -30,6 +31,7 @@ app.use(
 
 app.use('/', productRoutes);
 app.use('/', authRoutes);
+app.use('/', errRoutes);
 
 app.listen(process.env.PORT, () => {
     console.log(`Server listening on port: ${process.env.PORT}`)

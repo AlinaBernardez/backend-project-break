@@ -75,9 +75,8 @@ const showProductById = async(req, res) => {
 };
 
 const showNewProduct = (req, res) => {
-    console.log('Hola')
-    const newProductForm = baseHtml + getNavBarAdmin() + getProductForm('new')
-    return res.send(newProductForm)
+    const newProductForm = baseHtml + getNavBarAdmin() + getProductForm('new', null)
+    res.send(newProductForm)
 };
 
 const showNewImage = (req, res) => {
@@ -115,7 +114,7 @@ const uploadImage = async(req, res) => {
 const showEditProduct = async(req, res) => {
     let editId = req.params.productId
     const toEdit = await Product.findById(editId)
-    const editProductForm = baseHtml + getNavBarAdmin() + getProductForm('edit', editId, toEdit)
+    const editProductForm = baseHtml + getNavBarAdmin() + getProductForm('edit', toEdit)
     res.send(editProductForm)
 };
 
