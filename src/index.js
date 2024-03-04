@@ -1,12 +1,14 @@
 const express = require('express');
-const cors = require('cors')
+const cors = require('cors');
 const dotenv = require('dotenv').config();
 const session = require('express-session');
 const path = require('path');
 const dbConnect = require('./config/db');
 const productRoutes = require('./routes/productRoutes');
 const authRoutes = require('./routes/authRoutes');
-require('./config/firebase')
+require('./config/firebase');
+const swaggerUI = require('swagger-ui-express');
+const docs = require('./docs/index');
 
 const app = express();
 
@@ -29,6 +31,8 @@ app.use(
 
 app.use('/', productRoutes);
 app.use('/', authRoutes);
+
+app.use('/api-docs', swaggerUI.serve,swaggerUI.setup(docs))
 
 app.listen(process.env.PORT, () => {
     console.log(`Server listening on port: ${process.env.PORT}`)

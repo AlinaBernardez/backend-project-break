@@ -4,7 +4,7 @@ const { showProducts, showFilteredProducts, createProduct, showProductById } = r
 const Product = require('../src/models/Product');
 const { app } = require('../src/index');
 
-jest.setTimeout(3 * 60 * 1000)
+jest.useRealTimers();
 
 describe('GET /products', () => {
     it('Should show all created products', async() => {
