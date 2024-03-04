@@ -14,19 +14,19 @@ productRoutes.get('/products/:productId/detail', showProductById);
 //Admin routes
 productRoutes.get('/dashboard', verifyToken, showProducts);
 
-productRoutes.get('/dashboard/:category', showFilteredProducts);
+productRoutes.get('/dashboard/:category', verifyToken, showFilteredProducts);
 
-productRoutes.get('/addProduct', showNewProduct);
+productRoutes.get('/addProduct', verifyToken, showNewProduct);
 
-productRoutes.post('/dashboard', createProduct);
+productRoutes.post('/dashboard', verifyToken, createProduct);
 
-productRoutes.get('/dashboard/:productId/addImage', showNewImage);
+productRoutes.get('/dashboard/:productId/addImage', verifyToken, showNewImage);
 
 productRoutes.post('/dashboard/:productId/newImage', upload, uploadImage);
 
-productRoutes.get('/dashboard/:productId/detail', showProductById);
+productRoutes.get('/dashboard/:productId/detail', verifyToken, showProductById);
 
-productRoutes.get('/dashboard/:productId/edit', showEditProduct);
+productRoutes.get('/dashboard/:productId/edit', verifyToken, showEditProduct);
 
 productRoutes.post('/dashboard/:productId', updateProduct);
 

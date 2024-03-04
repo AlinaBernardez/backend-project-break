@@ -16,11 +16,13 @@ let storage = multer.diskStorage({
 const upload = multer({ storage: storage }).single('image');
 
 const deleteUploaded = (path) => {
-    try {
-        fs.unlinkSync(path)
-        console.log('image deleted with product')
-    } catch(err) {
-        console.log(err.message)
+    if(path) {
+        try {
+            fs.unlinkSync(path)
+            console.log('image deleted with product')
+        } catch(err) {
+            console.log(err.message)
+        }
     }
 };
 
