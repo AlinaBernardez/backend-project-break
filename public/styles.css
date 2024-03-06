@@ -88,6 +88,12 @@ a {
     padding: 1rem;
 }
 
+.productImg {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+}
+
 .productTitle {
     color: var(--dark);
     font-size: 1.2rem;

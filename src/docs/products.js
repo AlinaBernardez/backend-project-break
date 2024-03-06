@@ -1,6 +1,6 @@
 module.exports = {
     paths: {
-        '/dashboard': {
+        '/api/products': {
             post: {
                 tags: {
                     Product: "Create a product",
@@ -18,7 +18,7 @@ module.exports = {
                     },
                 },
                 responses: {
-                    201: {
+                    200: {
                         description: "Product created successfully",
                     },
                     500: {
@@ -40,6 +40,29 @@ module.exports = {
                     500: {
                         description: "There was a problem searching for your products",
                     },
+                },
+            },
+        },
+        '/api/products/{_id}': {
+            get: {
+                tags: {
+                    Product: "Get product by ID",
+                },
+                description: "Get product by ID",
+                operationId: "productById",
+                parameters: [
+                    {
+                    name: "_id",
+                    in: "path",
+                    schema: {
+                        $ref: "#/components/schemas/ProductId",
+                    },
+                    description: "Id of Product to get",
+                    },
+                ],
+                responses: {
+                    201: { description: 'Your product '},
+                    500: { description: "There was a problem searching for your product" },
                 },
             },
             put: {
@@ -92,48 +115,7 @@ module.exports = {
                 },
             },
         },
-        '/products': {
-            get: {
-                tags: {
-                    Product: 'Get all created products'
-                },
-                description: "Get all products",
-                operationId: "getProducts",
-                parameters: [],
-                responses: {
-                    201: {
-                        description: "Products",
-                    },
-                    500: {
-                        description: "There was a problem searching for your products",
-                    },
-                },
-            }
-        },
-        '/products/{_id}/detail': {
-            get: {
-                tags: {
-                    Product: "Get product by ID",
-                },
-                description: "Get product by ID",
-                operationId: "productById",
-                parameters: [
-                    {
-                    name: "_id",
-                    in: "path",
-                    schema: {
-                        $ref: "#/components/schemas/ProductId",
-                    },
-                    description: "Id of Product to get",
-                    },
-                ],
-                responses: {
-                    200: { description: 'Your product '},
-                    500: { description: "There was a problem searching for your product" },
-                },
-            },
-        },
-        '/products/{category}': {
+        '/api/products/{category}': {
             get: {
                 tags: {
                     Product: "Sort products by category",
@@ -155,6 +137,6 @@ module.exports = {
                     500: { description: "There was a problem searching for your products" },
                 },
             },
-        },
-    },
+        }
+    }
 };

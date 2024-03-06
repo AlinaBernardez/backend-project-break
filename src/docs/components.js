@@ -80,7 +80,7 @@ module.exports = {
                 type:'object',
                 properties:{
                     category: {
-                        type:'objectCategory',
+                        type:'string',
                         description:"Product category",
                         example:"trousers"
                     }

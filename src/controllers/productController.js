@@ -79,13 +79,23 @@ const showNewImage = (req, res) => {
 };
 
 const createProduct = async(req, res) => {
+    let defaultImg = path.join(__dirname, '/../../uploads/default-image.png')
+    const { name, description, category, size, price } = req.body
+    const newP = {
+        name: name,
+        description: description,
+        category: category,
+        image: defaultImg,
+        size: size,
+        price: price
+    }
     try {
-        const newProduct = await Product.create(req.body)
+        const newProduct = await Product.create(newP)
         const newId = newProduct._id
         return res.redirect(`/dashboard/${newId}/addImage`)
     }
     catch(error) {
-        res.status(500).send({message: 'Something went wrong!', error})
+        res.status(500).send({message: 'Something went wrong!'})
     }
 };
 
@@ -93,12 +103,8 @@ const uploadImage = async(req, res) => {
     const id = req.params.productId
     const imgPath = path.join(__dirname, '/../../uploads', req.file.filename)
     try {
-        const prodImage = {
-            data: fs.readFileSync(imgPath),
-            contentType: 'image/png'
-        }
-        // const updatedProduct = await Product.updateOne({_id: id}, {image: prodImage})
-        // console.log(updatedProduct)
+        const updatedProduct = await Product.updateOne({_id: id}, {image: imgPath})
+        console.log(updatedProduct)
         res.redirect(`/dashboard`)
     } catch(error) {
         res.status(500).send(error.message)
@@ -131,7 +137,7 @@ const deleteProduct = async(req, res) => {
     let imgPath = path.join(__dirname, '/../../uploads', `image-${id}`)
     try {
         await Product.findByIdAndDelete(id)
-        deleteUploaded(imgPath)
+        if(fs.existsSync(imgPath)) deleteUploaded(imgPath)
         return res.redirect('/dashboard')
     }
     catch(error) {
