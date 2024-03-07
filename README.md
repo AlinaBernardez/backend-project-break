@@ -4,21 +4,15 @@ Estructura y funcionamiento backend para una tienda de ropa online:
 Backend MVC creado con Node.js y Express, utilizando MongoDB como base de datos y Firebase para autenticación de administrador.
 <a href='https://backend-project-break-dev-gegh.1.ie-1.fl0.io/products'>TIENDA</a>
 
-[![npm][npm.js]][npm-url] [![Node][Node.js]][Node-url] [![Express][Express.js]][Express-url] [![Mongo][Mongo.js]][Mongo-url]
+### Stack
+
+[![npm][npm.js]][npm-url] [![Node][Node.js]][Node-url] [![Express][Express.js]][Express-url] [![Mongo][Mongo.js]][Mongo-url] [![Fire][Fire.js]][Fire-url]
 
 ## Índice
 
   - [Estructura de archivos](#estructura-de-archivos)
-  - [Creación de base de datos](#creación-de-base-de-datos)
-  - [Creación del servidor](#creación-del-servidor)
-  - [Creación de modelos](#creación-de-modelos)
-  - [Creación de rutas](#creación-de-rutas)
-  - [Creación de controladores](#creación-de-controladores)
-  - [Despliegue](#despliegue)
-  - [Documentación](#documentación)
-  - [Tests](#tests)
-  - [Autenticación con Firebase](#autenticación-con-firebase)
-  - [API y documentación con Swagger](#api-y-documentación-con-swagger)
+  - [Setup](#setup)
+  - [Endpoints](#endpoints)
   - [Recursos](#recursos)
 
 ## Estructura de archivos 
@@ -66,8 +60,6 @@ Backend MVC creado con Node.js y Express, utilizando MongoDB como base de datos 
 <p align="right">(<a href="#readme-top">Arriba</a>)</p>
 
 
-
-
 ## Endpoints
 
 Estas son las rutas CRUD para las operaciones del backend de la tienda:
@@ -104,5 +96,7 @@ Estas son las rutas CRUD para las operaciones del backend de la tienda:
 [Mongo-url]: https://www.mongodb.com/es
 [Swagger.js]: https://img.shields.io/badge/Swagger-grey?style=for-the-badge&logo=swagger
 [Swagger-url]: https://backend-project-break-dev-gegh.1.ie-1.fl0.io/api-docs/
+[Fire.js]: https://img.shields.io/badge/Firebase-grey?style=for-the-badge&logo=firebase
+[Fire-url]: https://firebase.google.com/?hl=es
 
 
