@@ -25,6 +25,9 @@
     "url": "https://github.com/AlinaBernardez/backend-project-break/issues"
   },
   "homepage": "https://github.com/AlinaBernardez/backend-project-break#readme",
+  "bin" : {
+    "execute" : "./src/index.js"
+  },
   "dependencies": {
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
