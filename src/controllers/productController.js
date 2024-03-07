@@ -8,6 +8,7 @@ const { getNavBar, getNavBarAdmin } = require('../utils/getNavBar');
 const { getProductForm, getImageForm } = require('../utils/getForms');
 const getProductDetail = require('../utils/getProductDetail');
 const { deleteUploaded } = require('../config/multer');
+const getErrorHtml = require('../utils/errorHtml');
 
 const showProducts = async(req, res) => {
     let html
@@ -25,7 +26,8 @@ const showProducts = async(req, res) => {
         res.send(html)
     }
     catch(error) {
-        res.status(500).send({message: 'Something went wrong!'})
+        const errHtml = getErrorHtml('Could not find your products, try again.')
+        res.status(500).send(errHtml)
     }
 };
 
@@ -45,7 +47,8 @@ const showFilteredProducts = async(req, res) => {
         res.send(html)
     }
     catch(error) {
-        res.status(500).send({message: 'Something went wrong!', error})
+        const errHtml = getErrorHtml('Could not find your products, try again.')
+        res.status(500).send(errHtml)
     }
 };
 
@@ -63,7 +66,8 @@ const showProductById = async(req, res) => {
         res.send(html)
     }
     catch(error) {
-        res.status(500).send({message: 'Something went wrong!', error})
+        const errHtml = getErrorHtml('Could not find this product, try again.')
+        res.status(500).send(errHtml)
     }
 };
 
@@ -85,7 +89,8 @@ const createProduct = async(req, res) => {
         return res.redirect(`/dashboard/${newId}/addImage`)
     }
     catch(error) {
-        res.status(500).send({message: 'Something went wrong!'})
+        const errHtml = getErrorHtml('Something went wrong.')
+        res.status(500).send(errHtml)
     }
 };
 
@@ -96,7 +101,8 @@ const uploadImage = async(req, res) => {
         const updatedProduct = await Product.updateOne({_id: id}, {image: imgPath})
         res.redirect(`/dashboard`)
     } catch(error) {
-        res.status(500).send(error.message)
+        const errHtml = getErrorHtml('Something went wrong.')
+        res.status(500).send(errHtml)
     }
 };
 
@@ -117,7 +123,8 @@ const updateProduct = async(req, res) => {
         res.redirect('/dashboard')
     }
     catch(error) {
-        res.status(500).send({message: 'Something went wrong!', error})
+        const errHtml = getErrorHtml('Something went wrong.')
+        res.status(500).send(errHtml)
     }
 };
 
@@ -130,7 +137,8 @@ const deleteProduct = async(req, res) => {
         return res.redirect('/dashboard')
     }
     catch(error) {
-        res.status(500).send({message: 'Something went wrong!', error})
+        const errHtml = getErrorHtml('Something went wrong.')
+        res.status(500).send(errHtml)
     }
 };
 

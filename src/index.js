@@ -12,7 +12,6 @@ const swaggerUI = require('swagger-ui-express');
 const docs = require('./docs/index');
 const hashedSecret = require('./encrypt/hash');
 
-
 const app = express();
 
 dbConnect();
