@@ -49,19 +49,33 @@ Backend MVC creado con Node.js y Express, utilizando MongoDB como base de datos 
 
 ```
 
-## 
+## Setup
+
+1. Clona el repostorio
+   ```sh
+   git clone https://github.com/AlinaBernardez/backend-project-break.git
+   ```
+2. Instala dependencias
+   ```sh
+   npm install
+   ```
+3. Crea un archivo `.env`
+
+<p align="right">(<a href="#readme-top">Arriba</a>)</p>
+
+
 
 
 ## Endpoints
 
 Estas son las rutas CRUD para las operaciones del backend de la tienda:
 
-Rutas accesibles por usuarios:
+### Rutas accesibles por usuarios:
 - GET /products: Devuelve todos los productos. Cada producto tendrá un enlace a su página de detalle.
 - GET /products/:productId/detail: Devuelve el detalle de un producto.
 - GET /products/:category: Devuelve los productos filtrados por categoría.
 
-Rutas accesibles por administrador:
+### Rutas accesibles por administrador:
 - GET /dashboard: Devuelve el dashboard del administrador, en el que aparecen todos los artículos que se hayan subido, con la opción de editarlos o eliminarlos.
 - GET /dashboard:category: Devuelve el dashboard del administrador, en el que aparecen todos los artículos que se hayan subido, filtrados por categoría.
 - GET /dashboard/new: Devuelve el formulario para subir un artículo nuevo.
