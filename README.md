@@ -1,8 +1,8 @@
-# Tienda de ropa
+# Backend - Tienda de ropa
 
-Vamos a montar una tienda de ropa con un catálogo de productos y un dashboard para el administrador. Los productos se guardarán en una base de datos de mongo en Atlas. Podemos usar como referencia el pdf [web_ejemplo.pdf](web_ejemplo.pdf) que contiene un ejemplo de cómo podría ser la interfaz de la tienda y el dashboard.
-
-* [![React][React.js]][React-url]
+Estructura y funcionamiento backend para una tienda de ropa online:
+Backend MVC creado con Node.js y Express, utilizando MongoDB como base de datos y Firebase para autenticación de administrador.
+<a href='https://backend-project-break-dev-gegh.1.ie-1.fl0.io/products'>TIENDA</a>
 
 ## Índice
 
@@ -14,107 +14,60 @@ Vamos a montar una tienda de ropa con un catálogo de productos y un dashboard p
   - [Creación de controladores](#creación-de-controladores)
   - [Despliegue](#despliegue)
   - [Documentación](#documentación)
-  - [Bonus 1 - Tests](#bonus-1---tests)
-  - [Bonus 2 - Autenticación con Firebase](#bonus-2---autenticación-con-firebase)
-  - [Bonus 3 - API y documentación con Swagger](#bonus-3---api-y-documentación-con-swagger)
+  - [Tests](#tests)
+  - [Autenticación con Firebase](#autenticación-con-firebase)
+  - [API y documentación con Swagger](#api-y-documentación-con-swagger)
   - [Recursos](#recursos)
 
-## Estructura de archivos
-
-Vamos a crear la estructura de archivos que vamos a necesitar para el proyecto. 
+## Estructura de archivos 
 
 ```
 .
 ├── src
 │   ├── config
 │   │   ├── db.js
-│   │   └── firebase.js (BONUS)
+│   │   └── firebase.js
+|   |   |__ multer.js
 │   ├── controllers
 │   │   ├── productController.js
-│   │   └──authController.js (BONUS)
+│   │   └── authController.js
 │   ├── models
 │   │   └── Product.js
 │   ├── routes
 │   │   └── productRoutes.js
-│   │   └── authRoutes.js (BONUS)
-│   ├── middlewares (BONUS)
+│   │   └── authRoutes.js
+│   ├── middlewares
 │   │   └── authMiddleware.js
 │   └── index.js
-├── test (BONUS)
+├── test
 │   └── productController.test.js
 ├── public
 │   ├── styles.css
-│   └── images (OPCIONAL)
+│   └── images
 ├── .env
 └── package.json
 
 ```
 
-### Características de los archivos
-
-- `config/db.js`: Archivo que contendrá la configuración de la base de datos. Deberá conectarse a la base de datos de mongo en Atlas.
-- `controllers/productController.js`: Archivo que contendrá la lógica para manejar las solicitudes CRUD de los productos. Devolverá las respuestas en formato HTML.
-- `models/Product.js`: Archivo que contendrá la definición del esquema del producto utilizando Mongoose.
-- `routes/productRoutes.js`: Archivo que contendrá la definición de las rutas CRUD para los productos. Este llama a los métodos del controlador.
-- `index.js`: Archivo principal que iniciará el servidor Express. Importa las rutas y las usa. También tiene que estar configurado para servir archivos estáticos y para leer el body de las peticiones de formularios.
-- `public/styles.css`: Archivo que contendrá los estilos de la aplicación (recomendable).
-- `public/images`: Carpeta que contendrá las imágenes de los productos (opcional).Se puede evitar si se usan urls externas para las imágenes.
-- `.env`: Archivo que contendrá las variables de entorno. En este caso, la uri de la base de datos de Atlas o el puerto de la aplicación. Más adelante añadiremos más variables de entorno, como la palabra secreta para la sesión.
-- `package.json`: Archivo que contendrá las dependencias del proyecto. Crearemos un script para iniciar el servidor con node y otro para iniciar el servidor con nodemon.("start": "node src/index.js", "dev": "nodemon src/index.js").
-
-**BONUS**
-- `config/firebase.js`: Archivo que contendrá la configuración de firebase. Deberá inicializar la conexión con firebase.
-- `controllers/authController.js`: Archivo que contendrá la lógica para manejar las solicitudes de autenticación. Devolverá las respuestas en formato HTML.
-- `routes/authRoutes.js`: Archivo que contendrá la definición de las rutas para la autenticación. Este llama a los métodos del controlador.
-- `middlewares/authMiddleware.js`: Archivo que contendrá el middleware para comprobar si el usuario está autenticado. Este buscará la sesión del usuario y, si no la encuentra, redirigirá al formulario de login.
-
-## Creacíon de base de datos
-
-Vamos a crear la base de datos en Atlas. Creamos un nuevo proyecto y lo desplegamos.
-
-Una vez creada la base de datos, copiamos la uri y la guardamos en el archivo .env 
-```
-MONGO_URI=<uri_bd_atlas>
-```
-
-## Creación del servidor
-
-Vamos a crear el servidor con express. El servidor devolverá las vistas usando template literals. Para interfaces más complejas, se podría usar un motor de plantillas como pug. También necesitaremos leer el body de las peticiones tipo post. Como trabajaremos con formularios html, necesitaremos el middleware `express.urlencoded` para leer el body de las peticiones.
-
-Para poder añadir estilos, imágenes, etc. necesitaremos el middleware `express.static` para servir archivos estáticos. En nuestro caso, serviremos los archivos estáticos desde la carpeta `public`.
-
-El puerto en el que escuchará el servidor lo cargaremos desde el archivo .env usando `dotenv`.
+## 
 
 
-Creamos el archivo `index.js` en la carpeta `src` y añadimos el código necesario para crear el servidor. 
+## Endpoints
 
-## Creación de modelo
+Estas son las rutas CRUD para las operaciones del backend de la tienda:
 
-Vamos a crear el modelo de producto. El modelo de producto tendrá los siguientes campos:
-
-- Nombre
-- Descripción
-- Imagen
-- Categoría
-- Talla
-- Precio
-
-La categoría será un string que podrá ser "Camisetas", "Pantalones", "Zapatos", "Accesorios".
-
-La talla será un string que podrá ser "XS", "S", "M", "L", "XL".
-
-
-## Creación de rutas
-
-Vamos a crear las rutas CRUD para los productos. Al usar formularios html, las rutas serán de tipo GET y POST.
- Las rutas deberían tener una estructura similar a esta:
-
+Rutas accesibles por usuarios:
 - GET /products: Devuelve todos los productos. Cada producto tendrá un enlace a su página de detalle.
-- GET /products/:productId: Devuelve el detalle de un producto.
-- GET /dashboard: Devuelve el dashboard del administrador. En el dashboard aparecerán todos los artículos que se hayan subido. Si clickamos en uno de ellos nos llevará a su página para poder actualizarlo o eliminarlo.
+- GET /products/:productId/detail: Devuelve el detalle de un producto.
+- GET /products/:category: Devuelve los productos filtrados por categoría.
+
+Rutas accesibles por administrador:
+- GET /dashboard: Devuelve el dashboard del administrador, en el que aparecen todos los artículos que se hayan subido, con la opción de editarlos o eliminarlos.
+- GET /dashboard:category: Devuelve el dashboard del administrador, en el que aparecen todos los artículos que se hayan subido, filtrados por categoría.
 - GET /dashboard/new: Devuelve el formulario para subir un artículo nuevo.
 - POST /dashboard: Crea un nuevo producto.
-- GET /dashboard/:productId: Devuelve el detalle de un producto en el dashboard.
+- POST /dashboard/:productId/addImage: Añade una imagen al producto. Si este paso se salta, se añadirá una imagen por defecto.
+- GET /dashboard/:productId/detail: Devuelve el detalle de un producto en el dashboard.
 - GET /dashboard/:productId/edit: Devuelve el formulario para editar un producto.
 - POST /dashboard/:productId: Actualiza un producto.
 - POST /dashboard/:productId/delete: Elimina un producto.
