@@ -79,18 +79,8 @@ const showNewImage = (req, res) => {
 };
 
 const createProduct = async(req, res) => {
-    let defaultImg = path.join(__dirname, '/../../uploads/default-image.png')
-    const { name, description, category, size, price } = req.body
-    const newP = {
-        name: name,
-        description: description,
-        category: category,
-        image: defaultImg,
-        size: size,
-        price: price
-    }
     try {
-        const newProduct = await Product.create(newP)
+        const newProduct = await Product.create(req.body)
         const newId = newProduct._id
         return res.redirect(`/dashboard/${newId}/addImage`)
     }
@@ -104,7 +94,6 @@ const uploadImage = async(req, res) => {
     const imgPath = path.join(__dirname, '/../../uploads', req.file.filename)
     try {
         const updatedProduct = await Product.updateOne({_id: id}, {image: imgPath})
-        console.log(updatedProduct)
         res.redirect(`/dashboard`)
     } catch(error) {
         res.status(500).send(error.message)
