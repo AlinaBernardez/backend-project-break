@@ -67,7 +67,10 @@ Backend MVC creado con Node.js y Express, utilizando MongoDB como base de datos 
    ```
 3. Crea un archivo `.env`
 
-<p align="right">(<a href="#indice">Arriba</a>)</p>
+
+## Tienda
+
+[screen-capture.webm](https://github.com/AlinaBernardez/backend-project-break/assets/116650041/e44b9f92-4e17-4657-a782-010bcff69293)
 
 
 ## Endpoints
