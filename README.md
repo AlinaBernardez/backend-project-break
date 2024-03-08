@@ -3,17 +3,27 @@
 Estructura y funcionamiento backend para una tienda de ropa online:
 Backend MVC creado con Node.js y Express, utilizando MongoDB como base de datos y Firebase para autenticación de administrador.
 <a href='https://backend-project-break-dev-gegh.1.ie-1.fl0.io/products'>TIENDA</a>
-
-### Stack
-
-[![npm][npm.js]][npm-url] [![Node][Node.js]][Node-url] [![Express][Express.js]][Express-url] [![Mongo][Mongo.js]][Mongo-url] [![Fire][Fire.js]][Fire-url]
-
+- Los usuarios no logueados podrán acceder a todos los productos y el detalle de cada uno.
+- Formulario de registro de administrador y de login del mismo.
+- Los usuarios registrados y logueados podrán acceder a un listado de todos los productos y dispondrán de las siguientes acciones:
+  - Añadir productos
+  - Eliminar productos
+  - Editar productos
+ 
+     
 ## Índice
 
+  - [Stack](#stack)
   - [Estructura de archivos](#estructura-de-archivos)
   - [Setup](#setup)
   - [Endpoints](#endpoints)
   - [Recursos](#recursos)
+
+
+
+## Stack
+
+[![npm][npm.js]][npm-url] [![Node][Node.js]][Node-url] [![Express][Express.js]][Express-url] [![Mongo][Mongo.js]][Mongo-url] [![Fire][Fire.js]][Fire-url]
 
 ## Estructura de archivos 
 
@@ -57,7 +67,7 @@ Backend MVC creado con Node.js y Express, utilizando MongoDB como base de datos 
    ```
 3. Crea un archivo `.env`
 
-<p align="right">(<a href="#readme-top">Arriba</a>)</p>
+<p align="right">(<a href="#indice">Arriba</a>)</p>
 
 
 ## Endpoints
